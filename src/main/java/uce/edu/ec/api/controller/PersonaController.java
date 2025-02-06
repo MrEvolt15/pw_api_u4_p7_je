@@ -7,7 +7,7 @@ import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 import uce.edu.ec.api.service.IPersonaService;
 import uce.edu.ec.api.service.to.PersonaTo;
 
@@ -17,37 +17,23 @@ public class PersonaController {
     private IPersonaService personaService;
 
     @GET
-    @Path("/{id}")
-    public PersonaTo buscarPorId(@PathParam("id") Integer id) {
-        return this.personaService.buscarPorId(id);
-    }
-
-    @POST
-    @Path("")
-    public void guardar(PersonaTo persona) {
-        this.personaService.guardar(persona);
-    }
-
-    @PUT
-    @Path("/{id}")
-    public void actualizar(PersonaTo persona, @PathParam("id") Integer id) {
-        PersonaTo tmp = this.personaService.buscarPorId(id);
-        tmp.setId(persona.getId());
-        this.personaService.actualizar(tmp);
+    @Path("/buscar")
+    public Response buscarPorId(){
+        Integer id = 1;
+        PersonaTo persona= this.personaService.buscarPorId(id);
+        System.out.println(persona.getNombre());
+        return Response.ok(this.personaService.buscarPorId(id)).build();
     }
     
-    @PATCH
-    @Path("/{id}/nuevo/{cedula}")
-    public void actualizarParcial(PersonaTo persona, @PathParam("id") Integer id,@PathParam("cedula") String cedula) {
-        PersonaTo tmp = this.personaService.buscarPorId(persona.getId());
-        tmp.setNombre(persona.getNombre());
-        this.personaService.actualizar(tmp);
+    public void guardar(PersonaTo persona){
+        this.personaService.guardar(persona);
     }
-
-    @DELETE
-    @Path("")
-    public void borrar() {
-        Integer id = 1;
+    
+    public void actualizar(PersonaTo persona){
+        this.personaService.actualizar(persona);
+    }
+    
+    public void borrar(Integer id){
         this.personaService.borrar(id);
     }
 
