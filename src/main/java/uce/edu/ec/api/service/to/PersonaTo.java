@@ -9,7 +9,7 @@ public class PersonaTo implements Serializable{
     private String nombre;
     private String apellido;
     private LocalDateTime fechaNacimiento;
-    private static final long serialVersionUID = -1544399202104638172L;
+    
     
     public PersonaTo() {
     }
