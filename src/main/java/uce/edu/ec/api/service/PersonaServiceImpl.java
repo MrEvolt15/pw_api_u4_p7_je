@@ -1,5 +1,7 @@
 package uce.edu.ec.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -46,6 +48,28 @@ public class PersonaServiceImpl implements IPersonaService {
     @Override
     public void borrar(Integer id) {
         this.personaRepository.eliminar(id);
+    }
+
+    @Override
+    public List<PersonaTo> buscarTodos() {
+        List<Persona> personas = this.personaRepository.buscarTodos();
+        List<PersonaTo> personasTo = new ArrayList<>();
+        for(Persona p : personas){
+            personasTo.add(this.mapTo.apply(p));
+        }
+        return personasTo;
+    }
+
+    @Override
+    public List<PersonaTo> buscarPorNombre(String nombre) {
+        List<Persona> personas = this.personaRepository.buscarPorNombre(nombre);
+        return personas.stream().map(this.mapTo).toList();
+    }
+
+    @Override
+    public List<PersonaTo> buscarPorNombreYApellido(String nombre, String apellido) {
+        List<Persona> personas = this.personaRepository.buscarPorNombreYApellido(nombre, apellido);
+        return personas.stream().map(this.mapTo).toList();
     }
 
 }
