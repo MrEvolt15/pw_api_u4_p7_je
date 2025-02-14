@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.ws.rs.Produces;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
@@ -60,6 +61,8 @@ public class PersonaController {
 
     @POST
     @Path("")
+    @Consumes(MediaType.APPLICATION_XML)
+    // http://localhost:8080/matriculaAPI/v1.1/personas
     public void guardar(PersonaTo persona){
         this.personaService.guardar(persona);
     }
@@ -70,12 +73,14 @@ public class PersonaController {
         this.personaService.actualizar(persona);
     }
     @PATCH
-    @Path("/{id}/nuevo/{cedula}")
-    public void actualizarParcial(PersonaTo persona,@PathParam("id")Integer id, @PathParam("cedula") String cedula){
-        System.out.println("cedula: " + cedula);
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_XML)
+    public PersonaTo actualizarParcial(PersonaTo persona,@PathParam("id")Integer id){
         PersonaTo tmp = this.personaService.buscarPorId(id);
         tmp.setNombre(persona.getNombre());
         this.personaService.actualizar(tmp);
+        return tmp;
     }
     @DELETE
     @Path("/{id}")
