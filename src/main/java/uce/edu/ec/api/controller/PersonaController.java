@@ -25,8 +25,8 @@ public class PersonaController {
 
     @GET
     @Path("/{id}")
-    @Produces(MediaType.APPLICATION_XML)
-    // http://localhost:8080/matriculaAPI/v1.1/personas/1
+    @Produces(MediaType.APPLICATION_JSON)
+    // http://localhost:8081/matriculaAPI/v1.1/personas/1
     public Response buscarPorId(@PathParam("id") Integer id) {
 
         //                        header, se pone el mensaje referente al codigo de estado personalizado
@@ -61,7 +61,7 @@ public class PersonaController {
 
     @POST
     @Path("")
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
     // http://localhost:8080/matriculaAPI/v1.1/personas
     public void guardar(PersonaTo persona){
         this.personaService.guardar(persona);
@@ -75,7 +75,7 @@ public class PersonaController {
     @PATCH
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
     public PersonaTo actualizarParcial(PersonaTo persona,@PathParam("id")Integer id){
         PersonaTo tmp = this.personaService.buscarPorId(id);
         tmp.setNombre(persona.getNombre());
